@@ -98,7 +98,7 @@ try {
 
 ## Autores
 
-Valentina y Juan — Arquitectura de Software, UCEVA.
+Valentina González Mejia  y Juan Fernando Vargas — Arquitectura de Software, UCEVA.
 
 ## Licencia
 
