@@ -1,0 +1,25 @@
+<section class="card">
+  <h2>LocalStorage</h2>
+  <label>Clave</label>
+  <input #k value="usuario" />
+  <label>Valor (texto, número o JSON)</label>
+  <textarea #v rows="3" [value]="defaultValue"></textarea>
+  <div class="actions">
+    <button (click)="save(k.value, v.value)">Guardar</button>
+    <button (click)="read(k.value)">Leer</button>
+    <button (click)="update(k.value, v.value)">Actualizar</button>
+    <button class="danger" (click)="remove(k.value)">Eliminar</button>
+    <button class="danger" (click)="clear()">Vaciar todo</button>
+  </div>
+  <p class="msg">{{ message() }}</p>
+  <h3>Valor leído</h3>
+  <pre>{{ result() }}</pre>
+  <h3>Claves almacenadas</h3>
+  <ul>
+    @for (key of keys(); track key) {
+      <li>{{ key }}</li>
+    } @empty {
+      <li>Sin claves</li>
+    }
+  </ul>
+</section>
