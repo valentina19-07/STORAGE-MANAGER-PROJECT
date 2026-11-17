@@ -1,63 +1,105 @@
-# StorageManager
+# ngx-storage-manager-uceva
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.0.
+Librería Angular para gestionar **LocalStorage** y **Cache Storage** con una API sencilla, tipada y consistente. Sin NgModules: los servicios son `providedIn: 'root'`.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Instalación
 
 ```bash
-ng generate component component-name
+npm install ngx-storage-manager-uceva
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Requiere Angular 20 o superior.
 
-```bash
-ng generate --help
+## Configuración
+
+No necesita configuración. Solo inyecta el servicio donde lo necesites:
+
+```ts
+import { Component, inject } from '@angular/core';
+import { LocalStorageService, CacheStorageService } from 'ngx-storage-manager-uceva';
+
+@Component({ selector: 'app-demo', template: '' })
+export class Demo {
+  private readonly local = inject(LocalStorageService);
+  private readonly cache = inject(CacheStorageService);
+}
 ```
 
-## Building
+## LocalStorageService
 
-To build the library, run:
-
-```bash
-ng build storage-manager
+```ts
+this.local.set('user', { id: 1, name: 'Ana' });   // guarda (primitivos u objetos)
+const user = this.local.get<{ id: number; name: string }>('user'); // objeto o null
+const theme = this.local.getOrDefault('theme', 'light');
+this.local.update('user', { id: 1, name: 'Ana María' }); // error si no existe
+this.local.has('user');   // true
+this.local.keys();        // ['user']
+this.local.remove('user');
+this.local.clear();
 ```
 
-This command will compile your project, and the build artifacts will be placed in the `dist/` directory.
+| Método | Descripción |
+|--------|-------------|
+| `set(key, value)` | Guarda un valor serializado en JSON |
+| `get<T>(key)` | Retorna el valor o `null` |
+| `getOrDefault<T>(key, default)` | Retorna el valor o el valor por defecto |
+| `has(key)` | Indica si la clave existe |
+| `update(key, value)` | Actualiza una clave existente |
+| `remove(key)` | Elimina una clave |
+| `clear()` | Elimina todas las claves |
+| `keys()` | Lista las claves |
 
-### Publishing the Library
+## CacheStorageService
 
-Once the project is built, you can publish your library by following these steps:
+Todos los métodos retornan `Promise`.
 
-1. Navigate to the `dist` directory:
-   ```bash
-   cd dist/storage-manager
-   ```
-
-2. Run the `npm publish` command to publish your library to the npm registry:
-   ```bash
-   npm publish
-   ```
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```ts
+await this.cache.create('mi-cache');
+await this.cache.putJson('mi-cache', '/api/user', { id: 1 });
+const data = await this.cache.getJson<{ id: number }>('mi-cache', '/api/user');
+await this.cache.fetchAndStore('mi-cache', 'https://jsonplaceholder.typicode.com/todos/1');
+const entries = await this.cache.entries('mi-cache'); // [{ url, method }]
+await this.cache.remove('mi-cache', '/api/user');
+await this.cache.removeCache('mi-cache');
+await this.cache.clearAll();
 ```
 
-## Running end-to-end tests
+| Método | Descripción |
+|--------|-------------|
+| `isSupported()` | Indica si el navegador soporta Cache Storage |
+| `create(name)` / `hasCache(name)` / `listCaches()` | Administración de cachés |
+| `put(name, request, response)` | Guarda una respuesta HTTP |
+| `putJson(name, url, data)` | Guarda un objeto como JSON |
+| `fetchAndStore(name, url)` | Descarga y guarda un recurso |
+| `get(name, request)` / `getJson<T>(name, request)` | Consulta un recurso |
+| `remove(name, request)` | Elimina un recurso |
+| `entries(name)` | Lista los recursos de una caché |
+| `removeCache(name)` / `clearAll()` | Elimina una o todas las cachés |
 
-For end-to-end (e2e) testing, run:
+> Cache Storage solo funciona en contextos seguros (HTTPS o localhost).
 
-```bash
-ng e2e
+## Manejo de errores
+
+Todo fallo se lanza como `StorageError`, con las propiedades `operation` y `originalError`:
+
+```ts
+try {
+  this.local.update('no-existe', 1);
+} catch (e) {
+  if (e instanceof StorageError) {
+    console.error(e.operation, e.message);
+  }
+}
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Modelos exportados
 
-## Additional Resources
+`StorageError` y la interfaz `CacheEntry { url: string; method: string }`.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Autores
+
+Valentina y Juan — Arquitectura de Software, UCEVA.
+
+## Licencia
+
+MIT
