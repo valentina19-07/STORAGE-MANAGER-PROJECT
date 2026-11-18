@@ -1,9 +1,22 @@
 {
-  "name": "storage-manager",
-  "version": "0.0.1",
+  "name": "ngx-storage-manager-uceva",
+  "version": "1.0.0",
+  "description": "Librería Angular para gestionar LocalStorage y Cache Storage con una API tipada.",
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "localstorage",
+    "cache-storage",
+    "storage",
+    "library"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valentina19-07/STORAGE-MANAGER-PROJECT.git"
+  },
   "peerDependencies": {
-    "@angular/common": "^20.3.0",
-    "@angular/core": "^20.3.0"
+    "@angular/common": "^20.0.0",
+    "@angular/core": "^20.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
