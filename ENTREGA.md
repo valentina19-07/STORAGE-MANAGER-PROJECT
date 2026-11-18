@@ -11,7 +11,7 @@
 - Paquete NPM: [ngx-storage-manager-uceva](https://www.npmjs.com/package/ngx-storage-manager-uceva)
 - Documentación Compodoc: [índice](./storage-manager-lib/documentation/index.html)
 
-> La versión `1.0.0` está preparada para publicar. La publicación y la captura de la página NPM quedan pendientes de autenticación y publicación del paquete. El paquete todavía no está disponible en el registro, por lo que una instalación limpia desde NPM no puede verificarse aún.
+La versión `1.0.0` está publicada en NPM. El Showcase declara el paquete como dependencia normal y se verificó con una instalación limpia (`npm ci`, `npm install ngx-storage-manager-uceva@1.0.0`) y compilación de producción.
 
 ## Evidencias
 
@@ -35,4 +35,6 @@ Captura tomada después de guardar y leer un dato en LocalStorage, crear la cach
 
 ### NPM
 
-La captura `03-npm-package.png` se agregará cuando `ngx-storage-manager-uceva@1.0.0` esté publicado.
+Paquete publicado: [`ngx-storage-manager-uceva@1.0.0`](https://www.npmjs.com/package/ngx-storage-manager-uceva).
+
+![Paquete publicado en NPM](./evidence/03-npm-package.png)
