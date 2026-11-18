@@ -1,0 +1,31 @@
+<section class="card">
+  <h2>Cache Storage</h2>
+  <label>Nombre de la caché</label>
+  <input #n value="demo-cache" />
+  <label>URL / clave del recurso</label>
+  <input #u value="https://jsonplaceholder.typicode.com/todos/1" />
+  <label>JSON a guardar</label>
+  <textarea #j rows="3" [value]="defaultJson"></textarea>
+  <div class="actions">
+    <button (click)="create(n.value)">Crear caché</button>
+    <button (click)="saveJson(n.value, u.value, j.value)">Guardar JSON</button>
+    <button (click)="download(n.value, u.value)">Descargar y guardar</button>
+    <button (click)="read(n.value, u.value)">Leer JSON</button>
+    <button class="danger" (click)="removeEntry(n.value, u.value)">Eliminar recurso</button>
+    <button class="danger" (click)="removeCache(n.value)">Eliminar caché</button>
+    <button class="danger" (click)="clearAll(n.value)">Vaciar todo</button>
+  </div>
+  <p class="msg">{{ message() }}</p>
+  <h3>Valor leído</h3>
+  <pre>{{ result() }}</pre>
+  <h3>Cachés existentes</h3>
+  <p>{{ caches().join(', ') || 'Ninguna' }}</p>
+  <h3>Recursos de la caché seleccionada</h3>
+  <ul>
+    @for (e of entries(); track e.url) {
+      <li>{{ e.method }} {{ e.url }}</li>
+    } @empty {
+      <li>Sin recursos</li>
+    }
+  </ul>
+</section>
